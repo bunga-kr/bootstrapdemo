@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="card-body">
                             <div class="text-center mb-3">
                                 <img src="profile.png" class="img-fluid rounded-start p-3" style="max-width: 8rem;">
-                                <p>Bootstrap Demo</p>
+                                <p>Bootstrap Demo Bunga</p>
                                 <hr />
                             </div>
                             <form action="" method="post">
