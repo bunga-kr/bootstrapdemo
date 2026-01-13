@@ -2,8 +2,9 @@
     <thead class="table-dark">
         <tr>            
                         <th>No</th>
-                        <th class="w-50">Username</th>
-                        <th class="w-75">Password</th>
+                        <th class="w-25">Username</th>
+                        <th class="w-75">Password (MD5)</th>
+                        <th class="w-25">Gambar</th>
                         <th class="w-25">Aksi</th>
                     </tr>
                 </thead>
@@ -15,7 +16,7 @@
                     $limit_start = ($hlm - 1) * $limit;
                     $no = $limit_start + 1;
 
-                    $sql = "SELECT * FROM user ORDER BY tanggal DESC LIMIT $limit_start, $limit";
+                    $sql = "SELECT * FROM user ORDER BY id ASC LIMIT $limit_start, $limit";
                     $hasil = $conn->query($sql);
 
                     $no = 1;
@@ -25,9 +26,8 @@
                             <td><?= $no++ ?></td>
 
                             <td>
-                                <strong><?= $row["judul"] ?></strong>
-                                <br>pada : <?= $row["tanggal"] ?>
-                                <br>oleh : <?= $row["username"] ?>
+                                <?= $row["username"] ?>
+                                <br>dibuat : <?= $row["tanggal"] ?>
                             </td>
 
                             <td><?= $row["isi"] ?></td>
@@ -36,7 +36,7 @@
                                 <?php
                                 if (!empty($row["gambar"])) {
 
-                                    $gambarPath = "galleryimg/" . $row["gambar"];
+                                    $gambarPath = "userimg/" . $row["gambar"];
 
                                     // GUARANTEED correct existence check
                                     if (file_exists($gambarPath)) {
@@ -59,19 +59,19 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit User</h1>
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Foto</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <form method="post" action="" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <div class="mb-3">
-                                                        <label for="formGroupExampleInput" class="form-label">Judul</label>
+                                                        <label for="formGroupExampleInput" class="form-label">Username</label>
                                                         <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                                                        <input type="text" class="form-control" name="judul" placeholder="Tuliskan Judul Artikel" value="<?= $row["judul"] ?>" required>
+                                                        <input type="text" class="form-control" name="judul" value="<?= $row["judul"] ?>" required>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="floatingTextarea2">Isi</label>
-                                                        <textarea class="form-control" placeholder="Tuliskan Isi Artikel" name="isi" required><?= $row["isi"] ?></textarea>
+                                                        <label for="floatingTextarea2">Password</label>
+                                                        <textarea class="form-control" name="isi" required><?= $row["isi"] ?></textarea>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="formGroupExampleInput2" class="form-label">Ganti Gambar</label>
@@ -106,13 +106,13 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Hapus User</h1>
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Hapus Foto</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <form method="post" action="" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <div class="mb-3">
-                                                        <label for="formGroupExampleInput" class="form-label">Yakin akan menghapus User "<strong><?= $row["judul"] ?></strong>"?</label>
+                                                        <label for="formGroupExampleInput" class="form-label">Yakin akan menghapus foto "<strong><?= $row["judul"] ?></strong>"?</label>
                                                         <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                                         <input type="hidden" name="gambar" value="<?= $row["gambar"] ?>">
                                                     </div>
@@ -135,11 +135,11 @@
             </table>
             
 <?php 
-$sql1 = "SELECT * FROM gallery";
+$sql1 = "SELECT * FROM user";
 $hasil1 = $conn->query($sql1); 
 $total_records = $hasil1->num_rows;
 ?>
-<p>Total User : <?php echo $total_records; ?></p>
+<p>Total Foto : <?php echo $total_records; ?></p>
 <nav class="mb-2">
     <ul class="pagination justify-content-end">
     <?php

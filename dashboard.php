@@ -10,6 +10,11 @@ $sql1 = "SELECT * FROM gallery ORDER BY tanggal DESC";
 $hasil1 = $conn->query($sql1);
 $jumlah_gallery = $hasil1->num_rows;
 ?>
+<?php
+$sql1 = "SELECT * FROM user ORDER BY tanggal DESC";
+$hasil1 = $conn->query($sql1);
+$jumlah_user = $hasil1->num_rows;
+?>
 
 <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center pt-4">
     <div class="col">

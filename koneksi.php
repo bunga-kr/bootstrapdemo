@@ -13,6 +13,4 @@ if($conn->connect_error){
 	//jika ada, hentikan script dan tampilkan pesan error
 	die("Connection failed : ".$conn->connect_error);
 }
-
-echo "Connected successfully<hr>";
 ?>

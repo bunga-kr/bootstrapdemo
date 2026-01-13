@@ -78,7 +78,7 @@
         ?>
             <div class="col">
             <div class="card h-100">
-                <img src="img/<?= $row["gambar"]?>" class="card-img-top" alt="..." />
+                <img src="catimg/<?= $row["gambar"]?>" class="card-img-top" alt="..." />
                 <div class="card-body">
                 <h5 class="card-title"><?= $row["judul"]?></h5>
                 <p class="card-text">
@@ -108,18 +108,18 @@
                     <div class="carousel-item active">
                     <img src="gallery.jpg" class="d-block w-100" alt="...">
                     </div>
-                    <div class="carousel-item">
-                    <img src="gallery2.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                    <img src="gallery3.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                    <img src="gallery4.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                    <img src="gallery5.jpg" class="d-block w-100" alt="...">
-                    </div>
+                    <?php
+                        $sql = "SELECT * FROM gallery ORDER BY id ASC";
+                        $hasil = $conn->query($sql); 
+
+                        while($row = $hasil->fetch_assoc()){
+                        ?>
+                            <div class="carousel-item">
+                                <img src="galleryimg/<?= $row["gambar"]?>" class="d-block w-100" alt="...">
+                            </div>
+                            <?php
+                        }
+                        ?> 
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

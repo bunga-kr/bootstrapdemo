@@ -12,18 +12,18 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah gallery</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Tambah user</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post" action="" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="formGroupExampleInput" class="form-label">Judul</label>
-                                <input type="text" class="form-control" name="judul" placeholder="Tuliskan Judul Artikel" required>
+                                <label for="formGroupExampleInput" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="judul" required>
                             </div>
                             <div class="mb-3">
-                                <label for="floatingTextarea2">Isi</label>
-                                <textarea class="form-control" placeholder="Tuliskan Isi Artikel" name="isi" required></textarea>
+                                <label for="floatingTextarea2">Password</label>
+                                <textarea class="form-control" name="isi" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="formGroupExampleInput2" class="form-label">Gambar</label>
@@ -47,11 +47,11 @@ $(document).ready(function(){
     load_data();
     function load_data(hlm){
         $.ajax({
-            url : "gallery_data.php",
+            url : "user_data.php",
             method : "POST",
             data : {hlm:hlm},
             success : function(data){
-                    $('#gallery_data').html(data);
+                    $('#user_data').html(data);
             }
         })
     } 
@@ -63,7 +63,7 @@ $(document).ready(function(){
 </script>
 
 <?php
-include "upload_user.php";
+include "upload_foto.php";
 
 //jika tombol simpan diklik
 if (isset($_POST['simpan'])) {
@@ -76,9 +76,9 @@ if (isset($_POST['simpan'])) {
 
     //jika ada file yang dikirim  
     if ($nama_gambar != '') {
-		    //panggil function upload_user untuk cek spesifikasi file yg dikirimkan user
+		    //panggil function upload_foto untuk cek spesifikasi file yg dikirimkan user
 		    //function ini memiliki 2 keluaran yaitu status dan message
-        $cek_upload = upload_user($_FILES["gambar"]);
+        $cek_upload = upload_foto($_FILES["gambar"]);
 
 				//cek status true/false
         if ($cek_upload['status']) {
@@ -88,7 +88,7 @@ if (isset($_POST['simpan'])) {
 		        //jika true maka message berisi pesan error, tampilkan dalam alert
             echo "<script>
                 alert('" . $cek_upload['message'] . "');
-                document.location='admin.php?page=gallery';
+                document.location='admin.php?page=user';
             </script>";
             die;
         }
@@ -107,7 +107,7 @@ if (isset($_POST['simpan'])) {
             unlink("img/" . $_POST['gambar_lama']);
         }
 
-        $stmt = $conn->prepare("UPDATE gallery 
+        $stmt = $conn->prepare("UPDATE user 
                                 SET 
                                 judul =?,
                                 isi =?,
@@ -120,7 +120,7 @@ if (isset($_POST['simpan'])) {
         $simpan = $stmt->execute();
     } else {
 		    //jika tidak ada id, lakukan insert data baru
-        $stmt = $conn->prepare("INSERT INTO gallery (judul,isi,gambar,tanggal,username)
+        $stmt = $conn->prepare("INSERT INTO user (judul,isi,gambar,tanggal,username)
                                 VALUES (?,?,?,?,?)");
 
         $stmt->bind_param("sssss", $judul, $isi, $gambar, $tanggal, $username);
@@ -130,12 +130,12 @@ if (isset($_POST['simpan'])) {
     if ($simpan) {
         echo "<script>
             alert('Simpan data sukses');
-            document.location='admin.php?page=gallery';
+            document.location='admin.php?page=user';
         </script>";
     } else {
         echo "<script>
             alert('Simpan data gagal');
-            document.location='admin.php?page=gallery';
+            document.location='admin.php?page=user';
         </script>";
     }
 
@@ -153,7 +153,7 @@ if (isset($_POST['hapus'])) {
         unlink("img/" . $gambar);
     }
 
-    $stmt = $conn->prepare("DELETE FROM gallery WHERE id =?");
+    $stmt = $conn->prepare("DELETE FROM user WHERE id =?");
 
     $stmt->bind_param("i", $id);
     $hapus = $stmt->execute();
@@ -161,12 +161,12 @@ if (isset($_POST['hapus'])) {
     if ($hapus) {
         echo "<script>
             alert('Hapus data sukses');
-            document.location='admin.php?page=gallery';
+            document.location='admin.php?page=user';
         </script>";
     } else {
         echo "<script>
             alert('Hapus data gagal');
-            document.location='admin.php?page=gallery';
+            document.location='admin.php?page=user';
         </script>";
     }
 
